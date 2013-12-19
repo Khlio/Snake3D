@@ -1,20 +1,6 @@
-function Jeu(_pas, _taillePlateforme) {
-	this.X = 0;
-	this.Y = 1;
-	this.Z = 2;
-	var PAS = _pas;
-	var TAILLE_PLATEFORME = _taillePlateforme;
-	var LIMITE = Math.round(TAILLE_PLATEFORME/2);
-
-	var FLECHE_GAUCHE = 37;
-	var FLECHE_DROITE = 39;
-	var FLECHE_HAUT = 38;
-	var FLECHE_BAS = 40;
-	var TOUCHE_S = 83;
-	var TOUCHE_Z = 90;
-	var TOUCHES = new Array([FLECHE_DROITE, FLECHE_GAUCHE, FLECHE_HAUT, FLECHE_BAS, TOUCHE_S, TOUCHE_Z], 
-							[this.X, this.X, this.Y, this.Y, this.Z, this.Z]);
-
+function Jeu() {
+	var touches = new Array([FLECHE_DROITE, FLECHE_GAUCHE, FLECHE_HAUT, FLECHE_BAS, TOUCHE_S, TOUCHE_Z], 
+							[X, X, Y, Y, Z, Z]);
 	var tailleSerpent = 3;
 	var serpent = new Array();
 	var direction = [1, 0, 0];
@@ -22,14 +8,14 @@ function Jeu(_pas, _taillePlateforme) {
 	var positionChangeeDansLaVue = false;
 	
 	for (var i = 0; i < tailleSerpent; i++) {
-		serpent[i] = [i * PAS, 0, 0];
+		serpent[i] = [i * CASE, 0, 0];
 	}
 	
 	this.definisDirection = function(event) {
 		if (positionChangeeDansLaVue) {
-			for (var i = 0; i < TOUCHES[0].length; i++) {
-				if (event.keyCode == TOUCHES[0][i]) {
-					changeDirection(TOUCHES[1][i], (i%2 == 0 ? 1 : -1));
+			for (var i = 0; i < touches[0].length; i++) {
+				if (event.keyCode == touches[0][i]) {
+					changeDirection(touches[1][i], (i%2 == 0 ? 1 : -1));
 					break;
 				}
 			}
@@ -50,12 +36,12 @@ function Jeu(_pas, _taillePlateforme) {
 				var tete = serpent[tailleSerpent-1];
 				var queue = serpent.shift();
 				for (var j = 0; j < queue.length; j++) {
-					queue[j] = tete[j] + (direction[j] * PAS);
+					queue[j] = tete[j] + (direction[j] * CASE);
 				}
 				serpent.push(queue);
 				
-				if (LIMITE * direction[i] - PAS  == tete[i]) {
-					serpent[tailleSerpent-1][i] = (LIMITE * -direction[i]) + (direction[i] * PAS);
+				if (LIMITE * direction[i] - CASE  == tete[i]) {
+					serpent[tailleSerpent-1][i] = (LIMITE * -direction[i]) + (direction[i] * CASE);
 				}
 				break;
 			}
@@ -80,9 +66,8 @@ function Jeu(_pas, _taillePlateforme) {
 
 	this.genereNourriture = function() {
 		for (var i = 0; i < nourriture.length; i++) {
-			nourriture[i] = nombreAleatoire(-(LIMITE-PAS), LIMITE-PAS);
+			nourriture[i] = nombreAleatoire(-(LIMITE-CASE), LIMITE-CASE);
 		}
-		nourriture[0] = 5;
 		return nourriture;
 	}
 
@@ -102,7 +87,7 @@ function Jeu(_pas, _taillePlateforme) {
 		var tete = this.getTeteSerpent();
 		var peutManger = true;
 		for (var i = 0; peutManger && i < tete.length; i++) {
-			if (tete[i] + direction[i] * PAS != nourriture[i]) {
+			if (tete[i] + direction[i] * CASE != nourriture[i]) {
 				peutManger = !peutManger;
 			}
 		}

@@ -1,13 +1,6 @@
 window.onload = function () {
-	var CASE = 1;
-	var TAILLE_PLATEFORME = 18 * CASE;
-	var VITESSE = 150;
-	var COULEUR_PLATEFORME = 'red';
-	var COULEUR_NOURRITURE = 'green';
-	var COULEUR_SERPENT = 'blue';
-	
 	var serpent = new Array();
-	var jeu = new Jeu(CASE, TAILLE_PLATEFORME);
+	var jeu = new Jeu();
 
 	var scene = new THREE.Scene();
 	var camera = new THREE.PerspectiveCamera(50, 4/3, 1, 10000);
@@ -29,7 +22,7 @@ window.onload = function () {
 	var materiel = new THREE.MeshBasicMaterial( { color: COULEUR_SERPENT } );
 	for (var i = 0; i < jeu.getTailleSerpent(); i++) {
 		serpent.push(new THREE.Mesh(geometrie, materiel));
-		serpent[i].position.x = jeu.getSerpent()[i][jeu.X];
+		serpent[i].position.x = jeu.getSerpent()[i][X];
 		scene.add(serpent[i]);
 	}
 	rafraichir();
@@ -46,7 +39,7 @@ window.onload = function () {
 		}
 		jeu.definisPosition();
 		var queue = serpent.shift();
-		queue.position.set(jeu.getTeteSerpent()[jeu.X], jeu.getTeteSerpent()[jeu.Y], jeu.getTeteSerpent()[jeu.Z]);
+		queue.position.set(jeu.getTeteSerpent()[X], jeu.getTeteSerpent()[Y], jeu.getTeteSerpent()[Z]);
 		serpent.push(queue);
 		jeu.setPositionChangeeDansLaVue(true);
 		rafraichir();
@@ -54,7 +47,7 @@ window.onload = function () {
 	
 	function positionneNourriture() {
 		var positionNourriture = jeu.genereNourriture();
-		nourriture.position.set(positionNourriture[jeu.X], positionNourriture[jeu.Y], positionNourriture[jeu.Z]);
+		nourriture.position.set(positionNourriture[X], positionNourriture[Y], positionNourriture[Z]);
 	}
 	
 	function rafraichir() {
